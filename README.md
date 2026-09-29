@@ -10,9 +10,10 @@ python -m pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
-The app provides measurement inputs and displays the predicted species and
-estimated probabilities for each class. It trains the model on the included
-dataset when the app starts.
+The app provides live measurement sliders and a floating prediction overlay
+that updates as inputs change. It also displays estimated probabilities for
+each species. At startup, it selects logistic-regression regularization using
+stratified five-fold cross-validation on the included dataset.
 
 ## Command-line evaluation
 
@@ -21,10 +22,15 @@ python -m pip install -r requirements.txt
 python train_iris_model.py
 ```
 
-The script uses the four sepal and petal measurements as features, scales them,
-and predicts `Species`. It intentionally ignores the CSV's `Id` column. The
-output includes holdout accuracy, a per-species classification report, and a
-confusion matrix.
+The script compares the default logistic regression against a model whose
+regularization strength is selected by stratified five-fold cross-validation
+using only the training split. It then reports both holdout accuracies, a
+per-species report, and a confusion matrix for the tuned model. The four
+measurements are scaled; the CSV's `Id` column is ignored.
+
+On the included dataset and fixed stratified 80/20 split, cross-validation
+selected `C=3` and improved holdout accuracy from 93.3% to 96.7%. This is a
+single small-dataset evaluation, not a guarantee of future performance.
 
 To use another CSV with the same columns:
 
